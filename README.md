@@ -1,6 +1,11 @@
+
 <img src="https://travis-ci.org/Marak/say.js.svg?branch=master" />
 
 <img src="https://github.com/Marak/say.js/raw/master/logo.png" />
+
+## Fork Changes
+
+This fork supports latin characters, useful for reading spanish words, change made by MatchaChoco010 (Other languages not tested)
 
 ## Installing say.js
 
