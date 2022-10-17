@@ -79,10 +79,10 @@ class SayPlatformWin32 extends SayPlatformBase {
   }
 
   getVoices () {
-    let args = []
-    let psCommand = 'Add-Type -AssemblyName System.speech;$speak = New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.GetInstalledVoices() | % {$_.VoiceInfo.Name}'
-    args.push(psCommand)
-    return { command: COMMAND, args }
+    let args = [];
+    let psCommand = 'Add-Type -AssemblyName System.speech;$speak = New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.GetInstalledVoices().VoiceInfo | ConvertTo-Json';
+    args.push(psCommand);
+    return { command: COMMAND, args };
   }
 }
 

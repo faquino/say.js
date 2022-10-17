@@ -151,41 +151,40 @@ class SayPlatformBase {
    * Get Installed voices on system
    * @param {Function} callback A callback of type function(err,voices) to return.
    */
-  getInstalledVoices (callback) {
+   getInstalledVoices (callback) {
     if (typeof callback !== 'function') {
-      callback = () => {}
+      callback = () => {};
     }
-    callback = once(callback)
+    callback = once(callback);
 
-    let { command, args } = this.getVoices()
-    var voices = []
-    this.child = childProcess.spawn(command, args)
+    let { command, args } = this.getVoices();
+    var voices = [];
+    this.child = childProcess.spawn(command, args);
 
-    this.child.stdin.setEncoding('ascii')
-    this.child.stderr.setEncoding('ascii')
+    this.child.stdin.setEncoding('ascii');
+    this.child.stderr.setEncoding('ascii');
 
     this.child.stderr.once('data', (data) => {
       // we can't stop execution from this function
-      callback(new Error(data))
-    })
+      callback(new Error(data));
+    });
     this.child.stdout.on('data', function (data) {
-      voices += data
-    })
+      voices += data;
+    });
 
     this.child.addListener('exit', (code, signal) => {
       if (code === null || signal !== null) {
-        return callback(new Error(`say.getInstalledVoices(): could not get installed voices, had an error [code: ${code}] [signal: ${signal}]`))
+        return callback(new Error(`say.getInstalledVoices(): could not get installed voices, had an error [code: ${code}] [signal: ${signal}]`));
       }
       if (voices.length > 0) {
-        voices = voices.split('\r\n')
-        voices = (voices[voices.length - 1] === '') ? voices.slice(0, voices.length - 1) : voices
+        voices = JSON.parse(voices);
       }
-      this.child = null
+      this.child = null;
 
-      callback(null, voices)
-    })
+      callback(null, voices);
+    });
 
-    this.child.stdin.end()
+    this.child.stdin.end();
   }
 }
 
